@@ -1,9 +1,15 @@
 package com.reservations.reservation.model.entity;
 
+import java.util.List;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -26,18 +32,18 @@ public class Users {
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String passWord;
 	
-//	@ManyToMany(fetch = FetchType.EAGER)
-//	@JoinTable(name = "user_rel_roles", joinColumns = @JoinColumn(name = "users_id"), inverseJoinColumns = @JoinColumn(name = "roles_id"))
-//	private List<Roles> roles;
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "user_rel_roles", joinColumns = @JoinColumn(name = "users_id"), inverseJoinColumns = @JoinColumn(name = "roles_id"))
+	private List<Roles> roles;
 
-	public Users(Integer id, String nome, String email, String passWord, String cpf) {
+	public Users(Integer id, String nome, String email, String passWord, String cpf, List<Roles> roles) {
 		super();
 		this.id = id;
 		this.name = nome;
 		this.email = email;
 		this.passWord = passWord;
 		this.cpf = cpf;
-//        this.roles = roles;
+        this.roles = roles;
 	}
 
 	public Users() {
@@ -83,5 +89,14 @@ public class Users {
 	public void setPassWord(String passWord) {
 		this.passWord = passWord;
 	}
+
+	public List<Roles> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Roles> roles) {
+		this.roles = roles;
+	}
+	
 
 }

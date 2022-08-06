@@ -10,11 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.token.TokenService;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.reservations.reservation.model.entity.Users;
-import com.residencia.t2m.repositories.UsersRepository;
+import com.reservations.reservation.repositories.UsersRepository;
+import com.reservations.reservation.service.TokenService;
 
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 	private final TokenService tokenService;

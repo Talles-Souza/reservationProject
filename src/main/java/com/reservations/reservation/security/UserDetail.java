@@ -1,7 +1,14 @@
 package com.reservations.reservation.security;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.reservations.reservation.model.entity.Roles;
 import com.reservations.reservation.model.entity.Users;
 
 public class UserDetail implements UserDetails {
@@ -11,20 +18,23 @@ public class UserDetail implements UserDetails {
 	private String name;
 	private String email;
 	private String password;
-//	private List<Roles> roles;
+	private List<Roles> roles;
 
 	public UserDetail(Users usuario) {
 		this.email = usuario.getEmail();
 		this.password = usuario.getPassWord();
 		this.id = usuario.getId();
 		this.name = usuario.getName();
+		this.roles = usuario.getRoles();
 	}
+	
 
-//	@Override
-//	public Collection<? extends GrantedAuthority> getAuthorities() {
-//	return 	roles.stream().map(role -> new SimpleGrantedAuthority(role.getAuthority())).collect(Collectors.toList());
-//		
-//	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+	return 	roles.stream().map(role -> new SimpleGrantedAuthority(role.getAuthority())).collect(Collectors.toList());
+		
+}
 	public UserDetail(String email, String password) {
         this.email = email;
         this.password = password;
@@ -56,13 +66,13 @@ public class UserDetail implements UserDetails {
 		this.email = email;
 	}
 
-//	public List<Roles> getRoles() {
-//		return roles;
-//	}
-//
-//	public void setRoles(List<Roles> roles) {
-//		this.roles = roles;
-//	}
+	public List<Roles> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Roles> roles) {
+		this.roles = roles;
+	}
 
 	public void setPassword(String password) {
 		this.password = password;
