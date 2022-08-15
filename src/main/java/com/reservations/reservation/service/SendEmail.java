@@ -21,12 +21,12 @@ public class SendEmail {
 	public void send (String from, String title, String content) {
 		System.out.println("Login realizado com sucesso");
 		
-		var mensage = new SimpleMailMessage() ;
+		var message = new SimpleMailMessage() ;
 		
-		mensage.setText(from);
-		mensage.setText(title);
-		mensage.setText(content);
-		sendMail.send(mensage);
+		message.setText(from);
+		message.setText(title);
+		message.setText(content);
+		sendMail.send(message);
 		System.out.println("Email enviado com sucesso");
 		
 	}
