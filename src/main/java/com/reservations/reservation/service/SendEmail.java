@@ -18,12 +18,12 @@ public class SendEmail {
 		this.sendMail = sendmail;
 	}
 	
-	public void send (String from, String title, String content) {
+	public void send (String to, String title, String content) {
 		System.out.println("Login realizado com sucesso");
 		
 		var message = new SimpleMailMessage() ;
 		
-		message.setText(from);
+		message.setText(to);
 		message.setText(title);
 		message.setText(content);
 		sendMail.send(message);
