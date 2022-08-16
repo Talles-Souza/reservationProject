@@ -1,4 +1,4 @@
-package com.reservations.reservation.service;
+package com.reservations.reservation.messages;
 
 import com.reservations.reservation.model.entity.Users;
 
