@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.reservations.reservation.emails.SendEmail;
+import com.reservations.reservation.messages.MessageEmail;
 import com.reservations.reservation.model.entity.Roles;
 import com.reservations.reservation.model.entity.Users;
 import com.reservations.reservation.model.entity.dto.LoginDTO;
