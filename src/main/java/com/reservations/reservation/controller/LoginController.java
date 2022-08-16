@@ -17,9 +17,17 @@ import com.reservations.reservation.model.entity.dto.TokenDTO;
 import com.reservations.reservation.service.TokenService;
 import com.reservations.reservation.service.UserService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 //@CrossOrigin(origins = "", allowedHeaders = "")
 @RequestMapping("/login")
+
+//para todos os end da classe
+//@SecurityRequirement(name = "bearerAuth")
+//@Tag(name = "User", description = "The User API. Contains all the operations that can be performed on a user.")
+
 public class LoginController {
 	@Autowired
 	AuthenticationManager authenticationManager;
@@ -33,7 +41,9 @@ public class LoginController {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	@PostMapping
+	//para segurança do end point sozinho, esse foi somente para teste
+	@SecurityRequirement(name = "Bearer Authentication")
+    @PostMapping
     public ResponseEntity<TokenDTO> auth(@RequestBody LoginDTO dto) {
 		 LoginDTO dto1 = usuarioService.insertAdminDefault(dto);
 	     UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(dto1.getEmail(), dto1.getPassword());
