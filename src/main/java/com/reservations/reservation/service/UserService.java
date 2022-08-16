@@ -24,6 +24,9 @@ public class UserService {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	SendEmail sendEmail;
 
 	public LoginDTO insertAdminDefault(LoginDTO dto) {
 		Users user = usuarioRepository.findByEmail(dto.getEmail());
@@ -32,6 +35,9 @@ public class UserService {
 			roles.add(perfilRepository.findByNome(EProfile.ROLE_ADMIN).get());
 			user.setRoles(roles);
 			perfilRepository.saveAll(user.getRoles());
+			
+			sendEmail.send(user.getEmail(), user.getName(), MessageEmail.messageLogin(user));
+			
 			return dto;
 		} else {
 			return dto;
