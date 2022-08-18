@@ -44,7 +44,19 @@ public class UserService {
 		} else {
 			return dto;
 		}
+		
+		
 
 	}
+	
+	public List<Users> findByAll() throws SalaNotFoundException {
+		List<Users> users = usuarioRepository.findAll();
+		if (users.isEmpty()) {
+			throw new SalaNotFoundException("Nao há usuarios cadastrados");
+		}
+		return users;
+	}
 
+	
+	
 }
