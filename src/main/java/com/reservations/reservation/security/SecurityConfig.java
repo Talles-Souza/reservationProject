@@ -40,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	TokenService tokenService;
 
 	private static final String[] AUTH_WHITELIST = { "/swagger-resources/", "/swagger-ui.html", "/webjars/","/login",
-			"/swagger-ui/**", "/v3/api-docs/**", "/autenticacao", "/autenticacao/recuperar-senha" };
+			"/swagger-ui/**", "/v3/api-docs/**" };
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {

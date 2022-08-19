@@ -10,6 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
+import org.hibernate.validator.constraints.br.CPF;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -23,15 +27,19 @@ public class Users {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	@NotBlank (message= "O nome é obrigatório.")
 	private String name;
 
+	@Email(regexp = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
+			+ "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")
 	private String email;
-
+    
+	@CPF
 	private String cpf;
 
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String passWord;
-	
+
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_rel_roles", joinColumns = @JoinColumn(name = "users_id"), inverseJoinColumns = @JoinColumn(name = "roles_id"))
 	private List<Roles> roles;
@@ -43,7 +51,7 @@ public class Users {
 		this.email = email;
 		this.passWord = passWord;
 		this.cpf = cpf;
-        this.roles = roles;
+		this.roles = roles;
 	}
 
 	public Users() {
@@ -97,6 +105,5 @@ public class Users {
 	public void setRoles(List<Roles> roles) {
 		this.roles = roles;
 	}
-	
 
 }
