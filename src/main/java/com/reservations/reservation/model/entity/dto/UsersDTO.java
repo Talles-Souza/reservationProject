@@ -5,7 +5,7 @@ import java.util.List;
 import com.reservations.reservation.model.entity.Roles;
 
 public class UsersDTO {
-
+    private Integer id;
 	private String name;
 	private String cpf;
 	private String email;
@@ -17,6 +17,20 @@ public class UsersDTO {
 	public UsersDTO() {
 		super();
 	}
+	
+	
+
+	public Integer getId() {
+		return id;
+	}
+
+
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+
 
 	public String getName() {
 		return name;

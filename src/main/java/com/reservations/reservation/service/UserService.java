@@ -29,7 +29,7 @@ public class UserService implements Convert<UsersDTO, Users> {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
+
 	@Autowired
 	SendEmail sendEmail;
 
@@ -40,45 +40,34 @@ public class UserService implements Convert<UsersDTO, Users> {
 			roles.add(profileRepository.findByNome(EProfile.ROLE_ADMIN).get());
 			user.setRoles(roles);
 			profileRepository.saveAll(user.getRoles());
-			
-			sendEmail.send(user.getEmail(), user.getName(), MessageEmail.messageLogin(user));
-			
+            //sendEmail.send(user.getEmail(), user.getName(), MessageEmail.messageLogin(user));
+
 			return dto;
 		} else {
 			return dto;
 		}
-		
-		
 
-	}
-	
-	public List<Users> findByAll1()  {
-		List<Users> users = userRepository.findAll();
-		if (users.isEmpty()) {
-			throw new NoSuchElementFoundException("Não há usuários cadastrados");
-		}
-		return users;
 	}
 
 	public List<UsersDTO> findByAll() {
 		List<Users> usersEntity = userRepository.findAll();
 		List<UsersDTO> usersDTO = new ArrayList<>();
-
+		
 		for (Users cliente : usersEntity) {
 			usersDTO.add(toDTO(cliente));
 		}
-
 		return usersDTO;
 	}
 
+	
 	public UsersDTO findClienteById(Integer id) {
-		return userRepository.findById(id).isPresent() ? toDTO(userRepository.findById(id).get())
-				: null;
+		return userRepository.findById(id).isPresent() ? toDTO(userRepository.findById(id).get()) : null;
 	}
 
 	@Override
 	public Users toEntity(UsersDTO dto) {
 		Users users = new Users();
+		users.setId(dto.getId());
 		users.setName(dto.getName());
 		users.setEmail(dto.getEmail());
 		users.setPassWord(passwordEncoder.encode(dto.getPassword()));
@@ -87,12 +76,13 @@ public class UserService implements Convert<UsersDTO, Users> {
 		perfis.add(profileRepository.findByNome(EProfile.ROLE_ADMIN).get());
 		users.setRoles(perfis);
 		profileRepository.saveAll(users.getRoles());
-        return users;
+		return users;
 	}
 
 	@Override
 	public UsersDTO toDTO(Users entity) {
 		UsersDTO users = new UsersDTO();
+		users.setId(entity.getId());
 		users.setName(entity.getName());
 		users.setEmail(entity.getEmail());
 		users.setPassword(passwordEncoder.encode(entity.getPassWord()));
@@ -100,6 +90,5 @@ public class UserService implements Convert<UsersDTO, Users> {
 		users.setRoles(entity.getRoles());
 		return users;
 	}
-	
-	
+
 }
