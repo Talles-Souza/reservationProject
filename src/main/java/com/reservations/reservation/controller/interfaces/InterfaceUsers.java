@@ -25,6 +25,7 @@ public interface InterfaceUsers {
 	public ResponseEntity<TokenDTO> auth(@RequestBody LoginDTO dto);
 
 	@GetMapping
+	@SecurityRequirement(name = "Bearer Authentication")
 	@Operation(summary = "Listar todos os Usuários", description = "Listagem de usuários")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Listado com sucesso"),
 			@ApiResponse(responseCode = "400", description = "ID Inválido"),
@@ -33,6 +34,7 @@ public interface InterfaceUsers {
 	public ResponseEntity<List<UsersDTO>> findAllUsers();
 
 	@GetMapping("/{id}")
+	@SecurityRequirement(name = "Bearer Authentication")
 	@Operation(summary = "Retornar um usuário", description = "Usuário")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Buscado com sucesso"),
 			@ApiResponse(responseCode = "400", description = "ID Inválido"),
