@@ -20,10 +20,9 @@ import com.reservations.reservation.service.UserService;
 @RequestMapping("/users")
 
 public class UsersController implements InterfaceUsers {
-	
+
 	@Autowired
 	UserService userService;
-
 
 	public ResponseEntity<List<UsersDTO>> findAllUsers() {
 		List<UsersDTO> usersList = userService.findByAll();
@@ -43,8 +42,15 @@ public class UsersController implements InterfaceUsers {
 
 	@Override
 	public ResponseEntity<UsersDTO> saveCollaborator(@Valid UsersDTO dto) {
-		   UsersDTO user = userService.insertCollaborator(dto);
-		return new ResponseEntity<>(user,HttpStatus.CREATED);
+		UsersDTO user = userService.insertCollaborator(dto);
+		return new ResponseEntity<>(user, HttpStatus.CREATED);
+	}
+
+	
+	@Override
+	public ResponseEntity<UsersDTO> saveAdmin(@Valid UsersDTO dto) {
+		UsersDTO user = userService.insertAdmin(dto);
+		return new ResponseEntity<>(user, HttpStatus.CREATED);
 	}
 
 }

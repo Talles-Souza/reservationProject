@@ -81,6 +81,21 @@ public class UserService implements Convert<UsersDTO, Users> {
 		UsersDTO user = toDTO(users);
 		return user;
     }
+	public UsersDTO insertAdmin(UsersDTO dto) {
+		Users users = toEntity(dto);
+		if (userRepository.existsByCpf(users.getCpf())) {
+			throw new NoSuchElementFoundException("CPF já cadastrado ");
+		} else if(userRepository.existsByEmail(users.getEmail())) {
+			throw new NoSuchElementFoundException("Email já cadastrado ");
+		}
+		List<Roles> perfis = new ArrayList<>();
+		perfis.add(profileRepository.findByNome(EProfile.ROLE_ADMIN).get());
+		users.setRoles(perfis);
+		profileRepository.saveAll(users.getRoles());
+		userRepository.save(users);
+		UsersDTO user = toDTO(users);
+		return user;
+	}
 
 	
 	
