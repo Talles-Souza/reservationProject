@@ -19,12 +19,8 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 public interface InterfaceUsers {
 
-	// para segurança do end point sozinho, esse foi somente para teste
-	@SecurityRequirement(name = "Bearer Authentication")
-	@PostMapping
-	public ResponseEntity<TokenDTO> auth(@RequestBody LoginDTO dto);
 
-	@GetMapping
+	@GetMapping("/all")
 	@SecurityRequirement(name = "Bearer Authentication")
 	@Operation(summary = "Listar todos os Usuários", description = "Listagem de usuários")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Listado com sucesso"),
