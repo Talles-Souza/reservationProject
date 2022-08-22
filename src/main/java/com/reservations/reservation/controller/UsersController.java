@@ -2,6 +2,8 @@ package com.reservations.reservation.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +39,12 @@ public class UsersController implements InterfaceUsers {
 			throw new NoSuchElementFoundException("Não foi encontrado o usuário com o id: " + id);
 		else
 			return new ResponseEntity<>(clienteDTO, HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<UsersDTO> saveCollaborator(@Valid UsersDTO dto) {
+		   UsersDTO user = userService.insertCollaborator(dto);
+		return new ResponseEntity<>(user,HttpStatus.CREATED);
 	}
 
 }
