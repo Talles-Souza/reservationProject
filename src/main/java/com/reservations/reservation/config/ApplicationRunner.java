@@ -54,6 +54,8 @@ public class ApplicationRunner implements CommandLineRunner {
 			roles.add(perfilRepository.findByNome(EProfile.ROLE_ADMIN).get());
 			user.setRoles(roles);
 			perfilRepository.saveAll(user.getRoles());
+			System.out.println(EProfile.ROLE_COLABORADOR.ordinal());
+			System.out.println(EProfile.ROLE_ADMIN);
 			
 		}
 		

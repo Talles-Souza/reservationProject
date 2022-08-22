@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 
 import com.reservations.reservation.emails.SendEmail;
 import com.reservations.reservation.exceptions.NoSuchElementFoundException;
-import com.reservations.reservation.messages.MessageEmail;
 import com.reservations.reservation.model.entity.Roles;
 import com.reservations.reservation.model.entity.Users;
 import com.reservations.reservation.model.entity.dto.LoginDTO;
+import com.reservations.reservation.model.entity.dto.RegisterDTO;
 import com.reservations.reservation.model.entity.dto.UsersDTO;
 import com.reservations.reservation.model.entity.enums.EProfile;
 import com.reservations.reservation.model.entity.interfaces.Convert;
@@ -63,7 +63,48 @@ public class UserService implements Convert<UsersDTO, Users> {
 	public UsersDTO findClienteById(Integer id) {
 		return userRepository.findById(id).isPresent() ? toDTO(userRepository.findById(id).get()) : null;
 	}
+	
+	
+	
+	public UsersDTO insertCollaborator(UsersDTO dto) {
+		Users users = toEntity(dto);
+		if (userRepository.existsByCpf(users.getCpf())) {
+			throw new NoSuchElementFoundException("CPF já cadastrado ");
+		} else if(userRepository.existsByEmail(users.getEmail())) {
+			throw new NoSuchElementFoundException("Email já cadastrado ");
+		}
+		List<Roles> perfis = new ArrayList<>();
+		perfis.add(profileRepository.findByNome(EProfile.ROLE_COLABORADOR).get());
+		users.setRoles(perfis);
+		profileRepository.saveAll(users.getRoles());
+		userRepository.save(users);
+		UsersDTO user = toDTO(users);
+		return user;
+    }
+	public UsersDTO insertAdmin(UsersDTO dto) {
+		Users users = toEntity(dto);
+		if (userRepository.existsByCpf(users.getCpf())) {
+			throw new NoSuchElementFoundException("CPF já cadastrado ");
+		} else if(userRepository.existsByEmail(users.getEmail())) {
+			throw new NoSuchElementFoundException("Email já cadastrado ");
+		}
+		List<Roles> perfis = new ArrayList<>();
+		perfis.add(profileRepository.findByNome(EProfile.ROLE_ADMIN).get());
+		users.setRoles(perfis);
+		profileRepository.saveAll(users.getRoles());
+		userRepository.save(users);
+		UsersDTO user = toDTO(users);
+		return user;
+	}
 
+	
+	
+	
+
+	
+	
+	
+	
 	@Override
 	public Users toEntity(UsersDTO dto) {
 		Users users = new Users();
@@ -72,10 +113,7 @@ public class UserService implements Convert<UsersDTO, Users> {
 		users.setEmail(dto.getEmail());
 		users.setPassWord(passwordEncoder.encode(dto.getPassword()));
 		users.setCpf(dto.getCpf());
-		List<Roles> perfis = new ArrayList<>();
-		perfis.add(profileRepository.findByNome(EProfile.ROLE_ADMIN).get());
-		users.setRoles(perfis);
-		profileRepository.saveAll(users.getRoles());
+		users.setRoles(dto.getRoles());
 		return users;
 	}
 
