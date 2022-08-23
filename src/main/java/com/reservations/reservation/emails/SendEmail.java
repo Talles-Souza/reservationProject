@@ -37,14 +37,11 @@ public class SendEmail {
 	}
 
 	public void sendHtmlMail(String to, String title, String content) throws Exception {
-
 		MimeMessage mimeMessage = sendMail.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
-
 		try {
 			helper.setTo(to);
 			helper.setSubject(title);
-
 			StringBuilder sBuilder = new StringBuilder();
 			sBuilder.append("<html>\r\n");
 			sBuilder.append("	<body>\r\n");
@@ -57,9 +54,7 @@ public class SendEmail {
 			sBuilder.append("		</center>\r\n");
 			sBuilder.append("	</body>\r\n");
 			sBuilder.append("</html>");
-
 			helper.setText(sBuilder.toString(), true);
-
 			sendMail.send(mimeMessage);
 			System.out.println("Email enviado com sucesso");
 
