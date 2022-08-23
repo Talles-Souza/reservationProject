@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 
 import com.reservations.reservation.emails.SendEmail;
 import com.reservations.reservation.exceptions.NoSuchElementFoundException;
+import com.reservations.reservation.messages.MessageRegister;
 import com.reservations.reservation.model.entity.Roles;
 import com.reservations.reservation.model.entity.Users;
 import com.reservations.reservation.model.entity.dto.LoginDTO;
-import com.reservations.reservation.model.entity.dto.RegisterDTO;
 import com.reservations.reservation.model.entity.dto.UsersDTO;
 import com.reservations.reservation.model.entity.enums.EProfile;
 import com.reservations.reservation.model.entity.interfaces.Convert;
@@ -40,7 +40,8 @@ public class UserService implements Convert<UsersDTO, Users> {
 			roles.add(profileRepository.findByNome(EProfile.ROLE_ADMIN).get());
 			user.setRoles(roles);
 			profileRepository.saveAll(user.getRoles());
-            //sendEmail.send(user.getEmail(), user.getName(), MessageEmail.messageLogin(user));
+			// sendEmail.send(user.getEmail(), user.getName(),
+			// MessageEmail.messageLogin(user));
 
 			return dto;
 		} else {
@@ -52,25 +53,22 @@ public class UserService implements Convert<UsersDTO, Users> {
 	public List<UsersDTO> findByAll() {
 		List<Users> usersEntity = userRepository.findAll();
 		List<UsersDTO> usersDTO = new ArrayList<>();
-		
+
 		for (Users cliente : usersEntity) {
 			usersDTO.add(toDTO(cliente));
 		}
 		return usersDTO;
 	}
 
-	
 	public UsersDTO findClienteById(Integer id) {
 		return userRepository.findById(id).isPresent() ? toDTO(userRepository.findById(id).get()) : null;
 	}
-	
-	
-	
-	public UsersDTO insertCollaborator(UsersDTO dto) {
+
+	public UsersDTO insertCollaborator(UsersDTO dto) throws Exception {
 		Users users = toEntity(dto);
 		if (userRepository.existsByCpf(users.getCpf())) {
 			throw new NoSuchElementFoundException("CPF já cadastrado ");
-		} else if(userRepository.existsByEmail(users.getEmail())) {
+		} else if (userRepository.existsByEmail(users.getEmail())) {
 			throw new NoSuchElementFoundException("Email já cadastrado ");
 		}
 		List<Roles> perfis = new ArrayList<>();
@@ -78,14 +76,16 @@ public class UserService implements Convert<UsersDTO, Users> {
 		users.setRoles(perfis);
 		profileRepository.saveAll(users.getRoles());
 		userRepository.save(users);
+		sendEmail.sendHtmlMail(users.getEmail(), users.getName(), MessageRegister.messageNewUser(users));
 		UsersDTO user = toDTO(users);
 		return user;
-    }
+	}
+
 	public UsersDTO insertAdmin(UsersDTO dto) {
 		Users users = toEntity(dto);
 		if (userRepository.existsByCpf(users.getCpf())) {
 			throw new NoSuchElementFoundException("CPF já cadastrado ");
-		} else if(userRepository.existsByEmail(users.getEmail())) {
+		} else if (userRepository.existsByEmail(users.getEmail())) {
 			throw new NoSuchElementFoundException("Email já cadastrado ");
 		}
 		List<Roles> perfis = new ArrayList<>();
@@ -97,14 +97,6 @@ public class UserService implements Convert<UsersDTO, Users> {
 		return user;
 	}
 
-	
-	
-	
-
-	
-	
-	
-	
 	@Override
 	public Users toEntity(UsersDTO dto) {
 		Users users = new Users();

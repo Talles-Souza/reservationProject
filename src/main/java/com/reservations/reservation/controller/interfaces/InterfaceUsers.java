@@ -39,7 +39,6 @@ public interface InterfaceUsers {
 	public ResponseEntity<UsersDTO> findUsersById(@PathVariable Integer id);
 
 	@PostMapping("/collaborator")
-	@SecurityRequirement(name = "Bearer Authentication")
 	@Operation(summary = "Salvar um usuário colaborador ", description = "Usuário")
 	@ApiResponses(value = { @ApiResponse(responseCode = "201", description = "Criado com sucesso"),
 			@ApiResponse(responseCode = "400", description = "Sintaxe de requisição mal formada, enquadramento de mensagem de requisição inválida "),
