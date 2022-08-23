@@ -46,7 +46,7 @@ public class ApplicationRunner implements CommandLineRunner {
 			Users user = new Users();
 			user.setId(1);
 			user.setName("Admin");
-			user.setEmail("tallesdelfino1@gmail.com");
+			user.setEmail("admin@mail.com");
 			user.setPassWord(passwordEncoder.encode("1234"));
 			user.setCpf(null);
 			usersRepository.save(user);

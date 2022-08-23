@@ -42,7 +42,12 @@ public class UsersController implements InterfaceUsers {
 
 	@Override
 	public ResponseEntity<UsersDTO> saveCollaborator(@Valid UsersDTO dto) {
-		UsersDTO user = userService.insertCollaborator(dto);
+		UsersDTO user = null;
+		try {
+			user = userService.insertCollaborator(dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return new ResponseEntity<>(user, HttpStatus.CREATED);
 	}
 
