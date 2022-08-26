@@ -51,11 +51,32 @@ public class UsersController implements InterfaceUsers {
 		return new ResponseEntity<>(user, HttpStatus.CREATED);
 	}
 
-	
 	@Override
 	public ResponseEntity<UsersDTO> saveAdmin(@Valid UsersDTO dto) {
 		UsersDTO user = userService.insertAdmin(dto);
 		return new ResponseEntity<>(user, HttpStatus.CREATED);
 	}
+
+	@Override
+	public ResponseEntity<UsersDTO> updateCollaborator(@Valid UsersDTO dto) {
+		UsersDTO user = null;
+		try {
+			user = userService.updateCollaborator(dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<>(user, HttpStatus.CREATED);
+	}
+
+	@Override
+	public ResponseEntity<UsersDTO> updateAdmin(@Valid UsersDTO dto) {
+		UsersDTO user = userService.findClienteById(dto.getId());
+		if (null == user)
+			throw new NoSuchElementFoundException("Não foi encontrado o usuário com o id: " + dto.getId());
+		else
+			user = userService.insertAdmin(dto);
+		return new ResponseEntity<>(user, HttpStatus.CREATED);
+	}
+
 
 }
