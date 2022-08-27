@@ -25,5 +25,23 @@ public class MessageRegister {
 			   return sBuilder.toString();
 				
 	}
+	public static String messageUpdateUser (Users user) {
+		StringBuilder sBuilder = new StringBuilder();
+		sBuilder.append(
+				"<p>\r\n Olá " + user.getName() + "! Seus dados foram alterados com sucesso. "
+						+"</br>"
+						+"<img src=https://st2.depositphotos.com/1005147/5192/i/450/depositphotos_51926417-stock-photo-hands-holding-the-sun-at.jpg/>"
+						+"<p>==============================================================</p>"
+						+"<p>Alteração feita dia "+LocalDate.now()+"  recebendo as seguintes informações : </p> "
+						+"<p><strong>Nome : </strong>"+user.getName()+"</p>"
+						+"<p><strong>Email : </strong>"+user.getEmail()+"</p>"
+						+"<p><strong>Cpf : </strong>"+user.getCpf()+"</p>"
+						+"<p>==============================================================</p>"
+						+"</br>"
+						+"<p>Caso não tenha sido você, porfavor entre em contato com a nossa equipe de suporte, que resolveremos seu problema.</p>");
+		
+		return sBuilder.toString();
+		
+	}
 
 }
