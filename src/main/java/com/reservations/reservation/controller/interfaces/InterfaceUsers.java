@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -74,4 +75,13 @@ public interface InterfaceUsers {
 			@ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar recurso"),
 			@ApiResponse(responseCode = "404", description = "Recurso não encontrado ou já existente") })
 	public ResponseEntity<UsersDTO> updateAdmin(@RequestBody @Valid UsersDTO dto);
+	
+	@DeleteMapping("/{id}")
+	@SecurityRequirement(name = "Bearer Authentication")
+	@Operation(summary = "Deletar um usuário", description = "Usuário")
+	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Deletado com sucesso"),
+			@ApiResponse(responseCode = "400", description = "Sintaxe de requisição mal formada ou enquadramento de mensagem de requisição inválida "),
+			@ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar recurso"),
+			@ApiResponse(responseCode = "404", description = "Recurso não encontrado ou já existente") })
+	public ResponseEntity<String> deleteUsersById(@PathVariable Integer id);
 }

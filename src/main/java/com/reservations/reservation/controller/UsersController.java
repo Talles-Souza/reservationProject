@@ -33,11 +33,11 @@ public class UsersController implements InterfaceUsers {
 	}
 
 	public ResponseEntity<UsersDTO> findUsersById(@PathVariable Integer id) {
-		UsersDTO clienteDTO = userService.findClienteById(id);
-		if (null == clienteDTO)
+		UsersDTO userDTO = userService.findUserById(id);
+		if (null == userDTO)
 			throw new NoSuchElementFoundException("Não foi encontrado o usuário com o id: " + id);
 		else
-			return new ResponseEntity<>(clienteDTO, HttpStatus.OK);
+			return new ResponseEntity<>(userDTO, HttpStatus.OK);
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public class UsersController implements InterfaceUsers {
 
 	@Override
 	public ResponseEntity<UsersDTO> updateAdmin(@Valid UsersDTO dto) {
-		UsersDTO user = userService.findClienteById(dto.getId());
+		UsersDTO user = userService.findUserById(dto.getId());
 		if (null == user)
 			throw new NoSuchElementFoundException("Não foi encontrado o usuário com o id: " + dto.getId());
 		else
@@ -78,5 +78,14 @@ public class UsersController implements InterfaceUsers {
 		return new ResponseEntity<>(user, HttpStatus.CREATED);
 	}
 
+	@Override
+	public ResponseEntity<String> deleteUsersById(Integer id) {
+		UsersDTO userDTO = userService.findUserById(id);
+		if (null == userDTO)
+			throw new NoSuchElementFoundException("Não foi encontrado o usuário com o id: " + id);
+		else
+			userService.deleteUser(id);
+		return new ResponseEntity<>("Usuário deletado com sucesso ", HttpStatus.OK);
+	}
 
 }
